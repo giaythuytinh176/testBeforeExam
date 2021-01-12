@@ -43,6 +43,7 @@
                                 <td>Image</td>
                                 <td>
                                     <input type="file" class="form-control" name="image">
+                                    <input type="hidden" class="form-control" name="imageName" value="{{ $product->image }}">
                                     @if($errors->any())
                                         {{ $errors->first('image') }}
                                     @endif

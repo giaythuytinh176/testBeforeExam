@@ -88,14 +88,16 @@ class ProductController extends Controller
     public function update(FormRequestProduct $request, Product $product)
     {
         $product = $product::findOrFail($request->id);
-        if ($request->hasFile('image')) {
+        if (!$request->hasFile('image') && public_path('images') . $request->imageName) {
+            $imageName = $request->imageName;
+        } else {
             $product->fill($request->all());
             $imageName = time() . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(public_path('images'), $imageName);
-            $product->image = $imageName;
-            $product->save();
-            return redirect()->route("admin.index");
         }
+        $product->image = $imageName;
+        $product->save();
+        return redirect()->route("admin.index");
     }
 
     /**
